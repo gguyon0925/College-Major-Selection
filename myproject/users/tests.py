@@ -63,6 +63,30 @@ class CustomUserViewSetTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    def test_user_update(self):
+        self.client.force_authenticate(user=self.user)
+        url = reverse('customuser-detail', kwargs={'pk': self.user.pk})
+        data = {'bio': 'Updated bio.', 'job_security_preference': 'MEDIUM'}
+        response = self.client.patch(url, data)
+        self.user.refresh_from_db()
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(self.user.bio, 'Updated bio.')
+        self.assertEqual(self.user.job_security_preference, 'MEDIUM')
+
+    def test_user_list(self):
+        User.objects.create_user(username='testuser2', password='pass2')
+        self.client.force_authenticate(user=self.user)
+        response = self.client.get(reverse('customuser-list'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)  # Adjust
+
+    def test_user_delete(self):
+        self.client.force_authenticate(user=self.user)
+        url = reverse('customuser-detail', kwargs={'pk': self.user.pk})
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(User.objects.filter(pk=self.user.pk).exists())
+
 
 class CustomUserSerializerTests(TestCase):
 
