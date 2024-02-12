@@ -1,8 +1,8 @@
 from rest_framework import viewsets
+from django.apps import apps
 
 from rest_framework import serializers
 
-from myproject.major_advisor.models import Major
 from .models import CustomUser, UserProfile, Interest, Strength, Weakness, TestResult, JobRecommendation
 
 
@@ -44,12 +44,15 @@ class TestResultSerializer(serializers.ModelSerializer):
 
 
 class JobRecommendationSerializer(serializers.ModelSerializer):
-    major_related = serializers.SlugRelatedField(
-        slug_field='name',
-        queryset=Major.objects.all(),
-        allow_null=True,
-        required=False
-    )
+    def __init__(self, *args, **kwargs):
+        super(JobRecommendationSerializer, self).__init__(*args, **kwargs)
+        Major = apps.get_model('major_advisor', 'Major')
+        self.fields['major_related'] = serializers.SlugRelatedField(
+            slug_field='name',
+            queryset=Major.objects.all(),
+            allow_null=True,
+            required=False
+        )
 
     class Meta:
         model = JobRecommendation
