@@ -5,7 +5,6 @@ from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):
-    # Add additional fields here
     bio = models.TextField(blank=True, null=True)
     job_security_preference = models.CharField(max_length=10, choices=[(
         'HIGH', 'High'), ('LOW', 'Low'), ('MEDIUM', 'medium')], default='HIGH')

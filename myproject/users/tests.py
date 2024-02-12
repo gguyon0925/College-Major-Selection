@@ -79,9 +79,9 @@ class CustomUserSerializerTests(TestCase):
         self.assertEqual(serializer.data['bio'], 'Test bio')
 
 
-# class UrlsTests(TestCase):
+class UrlsTests(TestCase):
 
-#     def test_user_detail_url(self):
-#         view = resolve('/api/users/1/')
-#         self.assertEqual(view.func.__name__, CustomUserViewSet.as_view(
-#             {'get': 'retrieve'}).__name__)
+    def test_user_detail_url(self):
+        view = resolve('/api/users/1/')
+        self.assertEqual(view.func.__name__, CustomUserViewSet.as_view(
+            {'get': 'retrieve'}).__name__)

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'django_extensions',
     'users',
     'job_market',
     'tests',
@@ -131,3 +132,8 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+# DRF settings
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'api.exception_handler.custom_exception_handler',
+}

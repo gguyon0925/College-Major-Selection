@@ -1,4 +1,3 @@
-from rest_framework import viewsets
 from django.apps import apps
 
 from rest_framework import serializers
